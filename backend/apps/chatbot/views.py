@@ -1,3 +1,4 @@
-from django.shortcuts import render
+from django.http import JsonResponse
 
-# Create your views here.
+def chatbot_view(request):
+    return JsonResponse({"message": "Chatbot is working"})
