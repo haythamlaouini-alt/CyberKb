@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'apps.chatbot',
     'apps.dashboard',
     'apps.notifications',
+
+    
+
 ]
 
 MIDDLEWARE = [
@@ -57,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+     'corsheaders.middleware.CorsMiddleware',
    
 ]
 
@@ -124,6 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ─── REST Framework ──────────────────────────────────────────────────────────
 REST_FRAMEWORK = {
+    
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
@@ -147,7 +153,6 @@ REST_FRAMEWORK = {
         'chatbot': '30/minute',
     },
 }
-
 # ─── JWT ─────────────────────────────────────────────────────────────────────
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
@@ -160,7 +165,7 @@ SIMPLE_JWT = {
 # ─── CORS ────────────────────────────────────────────────────────────────────
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,http://127.0.0.1:3000'
+     default="http://localhost:5173,http://127.0.0.1:3000"
 ).split(',')
 CORS_ALLOW_CREDENTIALS = True
 
@@ -175,9 +180,9 @@ CHANNEL_LAYERS = {
 }
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': REDIS_URL,
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
     }
 }
 
@@ -235,4 +240,14 @@ LOGGING = {
         'security': {'handlers': ['file', 'console'], 'level': 'WARNING', 'propagate': False},
         'django': {'handlers': ['console'], 'level': 'INFO'},
     },
+}
+SWAGGER_SETTINGS = {
+    "USE_SESSION_AUTH": False,
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
 }

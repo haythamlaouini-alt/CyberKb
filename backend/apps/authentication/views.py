@@ -10,6 +10,10 @@ from django.utils import timezone
 from .serializers import RegisterSerializer, LoginSerializer
 from .models import LoginAttempt
 from apps.users.serializers import UserProfileSerializer
+from rest_framework import serializers
+
+class EmptySerializer(serializers.Serializer):
+    pass
 
 logger = logging.getLogger('security')
 
@@ -89,6 +93,8 @@ class LoginView(generics.GenericAPIView):
 
 class LogoutView(generics.GenericAPIView):
     """POST /api/auth/logout/ — blacklist le refresh token."""
+
+    serializer_class = EmptySerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

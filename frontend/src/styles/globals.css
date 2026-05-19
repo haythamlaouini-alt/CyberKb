@@ -1,4 +1,12 @@
+/* stylelint-disable at-rule-no-unknown */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap');
+
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind base;
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind components;
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind utilities;
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 :root {
@@ -1014,4 +1022,66 @@ pre {
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
   .chat-bubble { max-width: 88%; }
   .page-header { flex-direction: column; }
+}
+/* Chat */
+
+.chat-box{
+  height:500px;
+  overflow-y:auto;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  background:var(--bg-secondary);
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  margin-bottom:20px;
+}
+
+.message{
+  display:flex;
+}
+
+.message.user{
+  justify-content:flex-end;
+}
+
+.message.assistant{
+  justify-content:flex-start;
+}
+
+.bubble{
+  max-width:75%;
+  padding:14px 18px;
+  border-radius:16px;
+  line-height:1.5;
+  font-size:14px;
+}
+
+.message.user .bubble{
+  background:var(--accent);
+  color:white;
+}
+
+.message.assistant .bubble{
+  background:var(--bg-tertiary);
+  border:1px solid var(--border);
+  color:var(--text-primary);
+}
+
+.chat-input-area{
+  display:flex;
+  gap:12px;
+}
+
+.chat-input-area textarea{
+  flex:1;
+  resize:none;
+  min-height:60px;
+}
+
+.empty-chat{
+  margin:auto;
+  color:var(--text-muted);
+  font-size:14px;
 }

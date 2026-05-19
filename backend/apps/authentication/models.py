@@ -14,7 +14,7 @@ class LoginAttempt(models.Model):
     user_agent = models.TextField(blank=True)
     success = models.BooleanField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    failure_reason = models.CharField(max_length=100, blank=True)
+    failure_reason = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = 'login_attempts'
