@@ -14,6 +14,7 @@ class Course(models.Model):
     level = models.CharField(max_length=15, choices=LEVEL_CHOICES, default=BEGINNER)
     thumbnail = models.ImageField(upload_to='courses/thumbnails/', null=True, blank=True)
     is_published = models.BooleanField(default=False)
+    order = models.PositiveIntegerField(default=0, help_text="Ordre de progression séquentiel")
 
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
@@ -24,7 +25,7 @@ class Course(models.Model):
 
     class Meta:
         db_table = 'courses'
-        ordering = ['-created_at']
+        ordering = ['order', '-created_at']
 
     def __str__(self):
         return self.title

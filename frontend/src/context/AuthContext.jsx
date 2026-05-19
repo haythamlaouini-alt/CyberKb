@@ -21,24 +21,41 @@ export function AuthProvider({ children }) {
 
   const login = async (credentials) => {
     const { data } = await authService.login(credentials);
-    localStorage.setItem('access_token',  data.access);
-    localStorage.setItem('refresh_token', data.refresh);
+    localStorage.setItem('access_token',  data.tokens.access);
+    localStorage.setItem('refresh_token', data.tokens.refresh);
     setUser(data.user);
     return data.user;
   };
 
   const register = async (formData) => {
     const { data } = await authService.register(formData);
-    localStorage.setItem('access_token',  data.access);
-    localStorage.setItem('refresh_token', data.refresh);
+    localStorage.setItem('access_token',  data.tokens.access);
+    localStorage.setItem('refresh_token', data.tokens.refresh);
     setUser(data.user);
     return data.user;
   };
 
-  const logout = () => { localStorage.clear(); setUser(null); };
+  const logout = async () => {
+    const refresh = localStorage.getItem('refresh_token');
+    if (refresh) {
+      try {
+        await authService.logout(refresh);
+      } catch (err) {
+        console.error('Logout error on backend:', err);
+      }
+    }
+    localStorage.clear();
+    setUser(null);
+  };
+
+  const refreshUser = async () => {
+    const { data } = await authService.getProfile();
+    setUser(data);
+    return data;
+  };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, isAdmin: user?.role === 'admin' }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, isAdmin: user?.role === 'admin' }}>
       {children}
     </AuthContext.Provider>
   );

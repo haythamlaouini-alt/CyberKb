@@ -1,20 +1,32 @@
-import axios from "axios";
+import api from "../api/axios";
 
-const API =
-  "http://127.0.0.1:8000/api/token/";
+const authService = {
+  login: async (credentials) => {
+    // credentials contains email & password
+    return api.post("/auth/login/", credentials);
+  },
 
-const login = async (
-  username,
-  password
-) => {
-  const response = await axios.post(API, {
-    username,
-    password,
-  });
+  register: async (formData) => {
+    // formData contains email, username, first_name, last_name, password, password_confirm
+    return api.post("/auth/register/", formData);
+  },
 
-  return response.data;
+  logout: async (refresh) => {
+    return api.post("/auth/logout/", { refresh });
+  },
+
+  getProfile: async () => {
+    return api.get("/users/me/");
+  },
+
+  updateProfile: async (data) => {
+    return api.patch("/users/me/", data);
+  },
+
+  changePassword: async (data) => {
+    // data contains old_password, new_password
+    return api.post("/users/me/change-password/", data);
+  }
 };
 
-export default {
-  login,
-};
+export default authService;

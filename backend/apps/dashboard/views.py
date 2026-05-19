@@ -41,8 +41,8 @@ def admin_dashboard(request):
 
     # Chatbot
     total_messages = Message.objects.count()
-    messages_7d = Message.objects.filter(created_at__gte=last_7_days).count()
-    active_conversations = Conversation.objects.filter(is_active=True).count()
+    messages_7d = Message.objects.filter(timestamp__gte=last_7_days).count()
+    active_conversations = Conversation.objects.count()
 
     # Security
     suspicious_count = SuspiciousActivity.objects.filter(resolved=False).count()
@@ -84,6 +84,8 @@ def admin_dashboard(request):
 @permission_classes([IsAuthenticated])
 def learner_dashboard(request):
     """GET /api/dashboard/me/ — tableau de bord de l'apprenant."""
+    from apps.courses.views import sync_user_progression
+    sync_user_progression(request.user)
     user = request.user
     enrollments = CourseEnrollment.objects.filter(user=user).select_related('course')
     completed = enrollments.filter(completed=True).count()

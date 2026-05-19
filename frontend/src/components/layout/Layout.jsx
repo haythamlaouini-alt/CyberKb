@@ -10,7 +10,7 @@ export default function Layout() {
 
   return (
     <div className="app-shell">
-      <Sidebar sidebarOpen={sidebarOpen} />
+      <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="main-content">
         <Topbar setSidebarOpen={setSidebarOpen} />

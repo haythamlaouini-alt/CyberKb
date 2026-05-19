@@ -1,4 +1,4 @@
-import api from '../api';
+import api from '../api/axios';
 
 const vulnService = {
   getAll:       (params) => api.get('/courses/', { params }),
